@@ -229,11 +229,11 @@ export default function Hero() {
       />
 
       <div className="relative z-10 flex flex-col items-center text-center px-4">
-        {/* GigShield title with shield icon */}
+        {/* Gig-Insure title with shield icon */}
         <div className="flex items-center mb-6">
           <ShieldIcon />
           <h1 className="font-[var(--font-heading)] text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white text-glow">
-            <LetterReveal text="GigShield" delay={1.8} />
+            <LetterReveal text="Gig-Insure" delay={1.8} />
           </h1>
         </div>
 

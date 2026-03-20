@@ -14,7 +14,7 @@ export default function Footer() {
 
       <div className="max-w-6xl mx-auto flex flex-col items-center gap-6 text-center">
         <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-sm text-white/30">
-          <span>GigShield &copy; 2026 | Team Overclocked Minds</span>
+          <span>Gig-Insure &copy; 2026 | Team Overclocked Minds</span>
           <span className="hidden sm:inline text-white/10">•</span>
           <span>Guidewire DEVTrails University Hackathon 2026</span>
         </div>

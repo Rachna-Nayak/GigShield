@@ -53,7 +53,7 @@ export default function LoadingScreen() {
               transition={{ delay: 0.3, duration: 0.5 }}
               className="text-sm tracking-[0.3em] uppercase text-teal/50"
             >
-              GigShield
+              Gig-Insure
             </motion.div>
           </div>
         </motion.div>

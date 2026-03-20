@@ -59,7 +59,7 @@ export default function Navbar() {
             />
           </svg>
           <span>
-            Gig<span className="text-teal">Shield</span>
+            Gig-<span className="text-teal">Insure</span>
           </span>
         </a>
 

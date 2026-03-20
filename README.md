@@ -1,4 +1,4 @@
-# 🛡️ GigShield  
+# 🛡️ Gig-Insure  
 ## Hyperlocal Parametric Insurance for Quick-Commerce Delivery Workers  
 
 *Your income, protected. Automatically.*
@@ -64,9 +64,9 @@ No compensation. No recovery.
 
 ---
 
-## 4. The Solution — GigShield
+## 4. The Solution — Gig-Insure
 
-GigShield is a **hyperlocal parametric insurance platform** that:
+Gig-Insure is a **hyperlocal parametric insurance platform** that:
 
 * Detects disruptions in real-time
 * Validates them using multiple data sources
@@ -77,7 +77,7 @@ GigShield is a **hyperlocal parametric insurance platform** that:
 
 ## 5. Key Innovation — Hyperlocal Risk Intelligence
 
-Unlike traditional insurance which is City-level, GigShield is **Zone-level (1–3 km radius).**
+Unlike traditional insurance which is City-level, Gig-Insure is **Zone-level (1–3 km radius).**
 
 Why this matters:
 
@@ -86,7 +86,7 @@ Why this matters:
 
 ### Multi-Source Data Fusion
 
-GigShield uses:
+Gig-Insure uses:
 
 * Weather signals
 * Traffic signals
@@ -355,7 +355,7 @@ Core tables:
 
 ## &#x20;Vision
 
-GigShield transforms gig work from **high-risk, unpredictable income**
+Gig-Insure transforms gig work from **high-risk, unpredictable income**
 to a **financially protected livelihood**.
 
 > *No claims. No paperwork. Just protection.*

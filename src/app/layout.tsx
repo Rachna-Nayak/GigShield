@@ -13,11 +13,11 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "GigShield — Hyperlocal Parametric Insurance for Gig Workers",
+  title: "Gig-Insure — Hyperlocal Parametric Insurance for Gig Workers",
   description:
-    "GigShield provides automated, zone-level income protection for India's 7.7 million gig delivery workers. Built by Team Overclocked Minds for Guidewire DEVTrails University Hackathon 2026.",
+    "Gig-Insure provides automated, zone-level income protection for India's 7.7 million gig delivery workers. Built by Team Overclocked Minds for Guidewire DEVTrails University Hackathon 2026.",
   keywords: [
-    "GigShield",
+    "Gig-Insure",
     "parametric insurance",
     "gig workers",
     "income protection",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Team Overclocked Minds" }],
   openGraph: {
-    title: "GigShield — Hyperlocal Parametric Insurance",
+    title: "Gig-Insure — Hyperlocal Parametric Insurance",
     description:
       "Your income, protected. Automatically. Built for Guidewire DEVTrails 2026.",
     type: "website",
