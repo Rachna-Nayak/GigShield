@@ -2,7 +2,6 @@
 
 import dynamic from "next/dynamic";
 import LoadingScreen from "@/components/LoadingScreen";
-import Navbar from "@/components/Navbar";
 import CustomCursor from "@/components/CustomCursor";
 import Hero from "@/components/Hero";
 import Problem from "@/components/Problem";
@@ -10,12 +9,15 @@ import HowItWorks from "@/components/HowItWorks";
 import Team from "@/components/Team";
 import Footer from "@/components/Footer";
 
-// Dynamic import for the Map component (Leaflet needs window)
-const MapSection = dynamic(() => import("@/components/MapSection"), {
+// Dynamic import for the DarkStoreMap component (Leaflet needs window)
+const DarkStoreMap = dynamic(() => import("@/components/DarkStoreMap"), {
   ssr: false,
   loading: () => (
     <div className="min-h-[60vh] flex items-center justify-center">
-      <div className="text-white/20 text-sm">Loading map...</div>
+      <div className="flex flex-col items-center gap-3">
+        <div className="w-8 h-8 border-2 border-teal/30 border-t-teal rounded-full animate-spin" />
+        <div className="text-white/20 text-sm">Loading live map...</div>
+      </div>
     </div>
   ),
 });
@@ -25,11 +27,10 @@ export default function Home() {
     <>
       <LoadingScreen />
       <CustomCursor />
-      <Navbar />
       <main>
         <Hero />
         <Problem />
-        <MapSection />
+        <DarkStoreMap />
         <HowItWorks />
         <Team />
       </main>

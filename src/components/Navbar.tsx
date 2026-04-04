@@ -2,17 +2,41 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-const navLinks = [
-  { label: "Problem", href: "#problem" },
-  { label: "Map", href: "#map" },
-  { label: "Approach", href: "#approach" },
-  { label: "Team", href: "#team" },
-];
+interface RiderData {
+  name: string;
+  zone: string;
+  platform: string;
+}
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [rider, setRider] = useState<RiderData | null>(null);
+
+  // Check localStorage for rider
+  useEffect(() => {
+    const check = () => {
+      const riderStr = localStorage.getItem("giginsure_rider");
+      if (riderStr) {
+        setRider(JSON.parse(riderStr));
+      } else {
+        setRider(null);
+      }
+    };
+    check();
+    // Re-check when storage changes (for cross-tab or same-tab updates)
+    window.addEventListener("storage", check);
+    // Also poll every 2s for same-tab localStorage updates
+    const interval = setInterval(check, 2000);
+    return () => {
+      window.removeEventListener("storage", check);
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -20,21 +44,43 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const isLanding = pathname === "/";
+  const isApp = ["/dashboard", "/claims", "/register", "/policy-confirmation"].includes(pathname);
+
+  // Navigation links change based on context
+  const landingLinks = [
+    { label: "Problem", href: "#problem" },
+    { label: "Live Map", href: "#map" },
+    { label: "Approach", href: "#approach" },
+    { label: "Team", href: "#team" },
+  ];
+
+  const appLinks = rider
+    ? [
+        { label: "Dashboard", href: "/dashboard" },
+        { label: "Claims", href: "/claims" },
+      ]
+    : [];
+
+  const navLinks = isLanding ? landingLinks : appLinks;
+
+  const platformColor = rider?.platform === "Blinkit" ? "#ff6b35" : rider?.platform === "Zepto" ? "#00d4aa" : "#0ea5e9";
+
   return (
     <motion.nav
-      initial={{ y: -80, opacity: 0 }}
+      initial={isLanding ? { y: -80, opacity: 0 } : { y: 0, opacity: 1 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ delay: 1.5, duration: 0.6, ease: "easeOut" }}
+      transition={isLanding ? { delay: 1.5, duration: 0.6, ease: "easeOut" } : { duration: 0.3 }}
       className={`fixed top-0 left-0 right-0 z-[9998] transition-all duration-500 ${
-        scrolled
+        scrolled || isApp
           ? "glass-strong shadow-lg shadow-black/20"
           : "bg-transparent"
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         {/* Logo */}
-        <a
-          href="#"
+        <Link
+          href={rider ? "/dashboard" : "/"}
           className="flex items-center gap-2 text-white font-[var(--font-heading)] text-lg font-bold tracking-tight"
         >
           <svg
@@ -61,19 +107,64 @@ export default function Navbar() {
           <span>
             Gig-<span className="text-teal">Insure</span>
           </span>
-        </a>
+        </Link>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm text-white/60 hover:text-teal transition-colors duration-300 tracking-wide"
+        <div className="hidden md:flex items-center gap-6">
+          {navLinks.map((link) => {
+            const isActive = !link.href.startsWith("#") && pathname === link.href;
+            return link.href.startsWith("#") ? (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-sm text-white/60 hover:text-teal transition-colors duration-300 tracking-wide"
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-sm transition-colors duration-300 tracking-wide ${
+                  isActive ? "text-teal font-medium" : "text-white/60 hover:text-teal"
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
+
+          {/* Auth section */}
+          {rider ? (
+            <div className="flex items-center gap-3 ml-2">
+              {/* Policy indicator */}
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                <span className="text-[10px] text-green-400/70 font-medium">Policy Active</span>
+              </div>
+
+              {/* Rider badge */}
+              <div className="flex items-center gap-2 glass rounded-full px-3 py-1.5">
+                <div
+                  className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white"
+                  style={{ background: `${platformColor}30`, border: `1px solid ${platformColor}40` }}
+                >
+                  {rider.name.charAt(0)}
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs text-white font-medium leading-tight">{rider.name.split(" ")[0]}</span>
+                  <span className="text-[9px] text-white/30 leading-tight">{rider.zone}</span>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <Link
+              href="/register"
+              className="ml-2 px-4 py-2 rounded-xl text-sm font-semibold bg-teal text-navy hover:shadow-lg hover:shadow-teal/20 transition-all"
             >
-              {link.label}
-            </a>
-          ))}
+              Get Protected
+            </Link>
+          )}
         </div>
 
         {/* Mobile menu button */}
@@ -109,16 +200,40 @@ export default function Navbar() {
           className="glass-strong md:hidden border-t border-white/5"
         >
           <div className="flex flex-col px-6 py-4 gap-4">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
+            {navLinks.map((link) =>
+              link.href.startsWith("#") ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="text-sm text-white/60 hover:text-teal transition-colors"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="text-sm text-white/60 hover:text-teal transition-colors"
+                >
+                  {link.label}
+                </Link>
+              )
+            )}
+            {!rider ? (
+              <Link
+                href="/register"
                 onClick={() => setMobileOpen(false)}
-                className="text-sm text-white/60 hover:text-teal transition-colors"
+                className="text-sm text-teal font-semibold"
               >
-                {link.label}
-              </a>
-            ))}
+                Get Protected →
+              </Link>
+            ) : (
+              <div className="text-xs text-white/30 pt-2 border-t border-white/5">
+                Signed in as {rider.name} · {rider.zone}
+              </div>
+            )}
           </div>
         </motion.div>
       )}
